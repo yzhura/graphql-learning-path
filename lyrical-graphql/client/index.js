@@ -10,18 +10,6 @@ import SongCreate from './components/SongCreate';
 
 const client = new ApolloClient({uri:'http://localhost:4000/graphql',cache: new InMemoryCache()});
 
-client
-  .query({
-    query: gql`
-      query GetSongs {
-        songs {
-          id
-        }
-      }
-    `,
-  })
-  .then((result) => console.log(result));
-
 const Root = () => {
   return (
     <ApolloProvider client={client}>
