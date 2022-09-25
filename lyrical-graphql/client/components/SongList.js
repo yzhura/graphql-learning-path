@@ -1,18 +1,33 @@
 import React from "react";
-import gql from "graphql-tag";
-import { graphql } from "react-apollo";
+import { useQuery, gql } from '@apollo/client';
 
-const SongList = (props) => {
-  console.log("props: ", props);
-  return <div>SongList</div>;
+const SongList = () => {
+  
+  const { loading, data } = useQuery(GET_SONGS);
+  
+  if (loading) {
+    return null;
+  }
+
+  const renderSongs = () => {
+    return data.songs.map((song) => <li key={song.id} className="collection-item">{song.title}</li>);
+  };
+
+  return (
+    <div>
+      <h2>SongList</h2>
+      <ul className="collection"> {renderSongs()}</ul>
+    </div>
+  );
 };
 
-const query = gql`
+const GET_SONGS = gql`
   {
     songs {
+      id
       title
     }
   }
 `;
 
-export default graphql(query)(SongList);
+export default SongList;
